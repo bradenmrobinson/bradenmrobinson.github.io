@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Braden Robinson&#39;s GitHub Site</title>
+    <link>http://bradenmrobinson.github.io/tags/r/</link>
+    <description>Recent content in R on Braden Robinson&#39;s GitHub Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://bradenmrobinson.github.io/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nebraska Baseball 2020-2021</title>
+      <link>http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/</link>
+      <pubDate>Tue, 12 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/</guid>
+      <description>  How does the Nebraska Baseball team of 2021 compare to other power 5 schools? With COVID limiting their season to only Big Ten play, the Huskers found their way to a Fayetteville regional as Big Ten champions. They then faced a fierce Arkansas team in the regional championship where they faced defeat.
+library(tidyverse) </description>
+    </item>
+    
+  </channel>
+</rss>
