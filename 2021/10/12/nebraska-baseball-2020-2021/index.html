@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">1 min read</span>
+    <span class="article-duration">3 min read</span>
     
 
     <h1 class="article-title">Nebraska Baseball 2020-2021</h1>
@@ -76,8 +76,53 @@
 <script src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/header-attrs/header-attrs.js"></script>
 
 
-<p>How does the Nebraska Baseball team of 2021 compare to other power 5 schools? With COVID limiting their season to only Big Ten play, the Huskers found their way to a Fayetteville regional as Big Ten champions. They then faced a fierce Arkansas team in the regional championship where they faced defeat.</p>
+<p>At the beginning of the 2021 baseball season Nebraska was looking to come out firing on all cylinders for Will Bolt’s first full season as the head coach for the Huskers, after the 2020 season was cut short due to COVID-19 striking the nation. The Huskers had previously made it to the Big Ten championship in 2019 only to lose to a talented Ohio State team, and continue on to lose out of the regional at Oklahoma State.</p>
+<p>Yet the 2021 season was not exactly normal. The Big Ten announced on February 17, 2021 that they had created a conference-only schedule for the season due to COVID-19. This was a bummer. The Big Ten could only play each other while every other conference could play a regular schedule. Although, it didn’t seem to rattle the Nebraska baseball team who cruised through their schedule and with the Big Ten deciding there will be no conference tournament the Huskers were crowned Big Ten Champions.</p>
+<p>Nebraska was then placed into the No. 1 ranked Arkansas Razorbacks’ regional, which was sought to be unfair by many people, but the Husker team was ready for the challenge. In Fayetteville, they made it to the regional finals to face the home team Razorbacks, but were defeated in game two to fall short of a super regional and finishing their season with a 34-14 record.</p>
+<p>So, this raises the question, with COVID-19 limiting Nebraska’s 2021 season to only Big Ten play how do the Huskers compare to the 16 teams who did make it to the super regionals?</p>
+<p>Well let’s dive into it.</p>
+<p>Nebraska’s offensive play style is considered gritty, they even used the phrase “gritty beats pretty.” Every time they step in the batter’s box they look to get on base, sacrifice an out to move the runner to the next base, or battle in the box on an 0-2 count. When on base they look to get home as fast as possible; steal a base, or go first to third on a base hit. So, where does Nebraska stand compared to the others in walks, and stolen bases? Are they truly gritty?</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code>baseball &lt;- read_csv(&quot;Project_Data.csv&quot;)</code></pre>
+<pre class="r"><code>top10BB &lt;- baseball %&gt;%
+  arrange(desc(BB...16)) %&gt;%
+  top_n(10) %&gt;%
+  select(Institution, BB...16) </code></pre>
+<pre class="r"><code>ggplot(top10BB, aes(x = reorder(Institution, BB...16), weight = BB...16)) +
+  geom_bar()</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+type type type type type</p>
+<pre class="r"><code>top10SB &lt;- baseball %&gt;%
+  arrange(desc(SB)) %&gt;%
+  top_n(10) %&gt;%
+  select(Institution, SB) </code></pre>
+<pre class="r"><code>ggplot(top10SB, aes(x = reorder(Institution, SB), weight = SB)) +
+  geom_bar()+
+  theme(
+    axis.text = element_text(size=8)
+  )</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>library(waffle)</code></pre>
+<pre class="r"><code>nu &lt;- c(&quot;Singles&quot; = 156.5, &quot;Doubles&quot; = 37.5, &quot;Triples&quot; = 4.5, &quot;Homeruns&quot; = 29.5, 228) 
+ut &lt;- c(&quot;Singles&quot; = 207, &quot;Doubles&quot; = 67, &quot;Triples&quot; = 6, &quot;Homeruns&quot; = 49, 40)
+au &lt;- c(&quot;Singles&quot; = 246, &quot;Doubles&quot; = 72, &quot;Triples&quot; = 15, &quot;Homeruns&quot; = 35)</code></pre>
+<pre class="r"><code>iron(
+waffle(nu, rows = 10, title=&quot;Nebraska&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hit&quot;, colors = c(&quot;black&quot;, &quot;red&quot;, &quot;Grey&quot;, &quot;Blue&quot;, &quot;white&quot;)), 
+waffle(ut, rows =10, title=&quot;Tennessee&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hit&quot;, colors = c(&quot;orange&quot;, &quot;black&quot;, &quot;grey&quot;, &quot;blue&quot;, &quot;white&quot;)),
+waffle(au, rows =10, title=&quot;Arizona&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hit&quot;, colors = c(&quot;Red&quot;, &quot;Blue&quot;, &quot;grey&quot;, &quot;black&quot;))
+)</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+type type type type type type type type</p>
+<pre class="r"><code>library(scales)
+library(ggrepel)</code></pre>
+<pre class="r"><code>ggplot() +
+  geom_point(
+    data = baseball,
+    aes(x = `R`, y = `R-A`, size = W),
+    alpha = .3    
+  ) +
+  scale_size(range = c(3, 8), name=&quot;Wins&quot;)</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 
     </div>
   </article>
