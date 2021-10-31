@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title>Text Cleaning - Braden Robinson&#39;s GitHub Site</title>
+<meta property="og:title" content="Text Cleaning - Braden Robinson&#39;s GitHub Site">
+
+
+  <link href='http://bradenmrobinson.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/braden_robinson">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">3 min read</span>
+    
+
+    <h1 class="article-title">Text Cleaning</h1>
+
+    
+    <span class="article-date">2021-10-31</span>
+    
+
+    <div class="article-content">
+      
+<script src="http://bradenmrobinson.github.io/2021/10/31/text-cleaning/index_files/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>First, I need to bring in my data.</p>
+<pre class="r"><code>bad &lt;- read_csv(&quot;badfootballlogs19.csv&quot;)     </code></pre>
+<p>Then, we need to separate the result into Outcome and Score while getting rid of the first parenthesis in the score.</p>
+<pre class="r"><code>bad %&gt;% separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot;\\(&quot;) %&gt;% head() </code></pre>
+<pre><code>## # A tibble: 6 × 52
+##    Game Date    HomeAway Opponent Outcome Score PassingCmp PassingAtt PassingPct
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1     1 8/24/19 N        Miami (… &quot;W &quot;    24-2…         17         27       63  
+## 2     2 9/7/19  &lt;NA&gt;     Tenness… &quot;W &quot;    45-0)         30         36       83.3
+## 3     3 9/14/19 @        Kentucky &quot;W &quot;    29-2…         21         30       70  
+## 4     4 9/21/19 &lt;NA&gt;     Tenness… &quot;W &quot;    34-3)         24         34       70.6
+## 5     5 9/28/19 &lt;NA&gt;     Towson   &quot;W &quot;    38-0)         24         28       85.7
+## 6     6 10/5/19 &lt;NA&gt;     Auburn   &quot;W &quot;    24-1…         25         39       64.1
+## # … with 43 more variables: PassingYds &lt;dbl&gt;, PassingTD &lt;dbl&gt;,
+## #   RushingAtt &lt;dbl&gt;, RushingYds &lt;dbl&gt;, RushingAvg &lt;dbl&gt;, RushingTD &lt;dbl&gt;,
+## #   OffensivePlays &lt;dbl&gt;, OffensiveYards &lt;dbl&gt;, OffenseAvg &lt;dbl&gt;,
+## #   FirstDownPass &lt;dbl&gt;, FirstDownRush &lt;dbl&gt;, FirstDownPen &lt;dbl&gt;,
+## #   FirstDownTotal &lt;dbl&gt;, Penalties &lt;dbl&gt;, PenaltyYds &lt;dbl&gt;, Fumbles &lt;dbl&gt;,
+## #   Interceptions &lt;dbl&gt;, TotalTurnovers &lt;dbl&gt;, TeamFull &lt;chr&gt;, TeamURL &lt;chr&gt;,
+## #   DefPassingCmp &lt;dbl&gt;, DefPassingAtt &lt;dbl&gt;, DefPassingPct &lt;dbl&gt;, …</code></pre>
+<p>Then, I have to take out the second parenthesis and separate Score into TeamScore and OpponentScore.</p>
+<pre class="r"><code>good &lt;- bad %&gt;% 
+  separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot;\\(&quot;) %&gt;% 
+  mutate(Score=gsub(&quot;)&quot;, &quot; &quot;, Score)) %&gt;%                          
+  separate(Score, into=c(&quot;TeamScore&quot;, &quot;OpponentScore&quot;), sep=&quot;-&quot;)   </code></pre>
+<p>I have to make OpponentScore and TeamScore numeric data to make my differential column, which is subtracting the OpponentScore from the TeamScore.</p>
+<pre class="r"><code>diffgood &lt;- good %&gt;% 
+  mutate(OpponentScore = as.numeric(OpponentScore)) %&gt;%  
+  mutate(TeamScore = as.numeric(TeamScore)) %&gt;% 
+  mutate(Differential = TeamScore - OpponentScore)</code></pre>
+<p>Next, I’m finding the games that have a differential greater than 65.</p>
+<pre class="r"><code>worstgames &lt;- diffgood %&gt;% 
+  filter(Differential &gt; 65) </code></pre>
+<pre class="r"><code>library(ggplot2)
+library(ggalt)</code></pre>
+<p>Then I’m adding all the games from the diffgood data set to the scatter plot and making them grey. The next step is to add the games from the “greater than 65” data and making them red. Finally, I add a circle around the worst games.</p>
+<pre class="r"><code>ggplot() +
+  geom_point(data = diffgood, aes(x = `TeamScore`, y = OpponentScore), color = &quot;grey&quot;) + 
+  geom_point(data = worstgames, aes(x = `TeamScore`, y = OpponentScore), color = &quot;red&quot;) +
+   scale_y_continuous(limits = c(0, 80)) +
+  geom_encircle(aes(x=TeamScore, y=OpponentScore),
+                data=worstgames, 
+                color=&quot;blue&quot;, 
+                size=2, 
+                expand=0.04)</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/31/text-cleaning/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Finally, I add a headline, subtitle, and sources, then add the theme of the plot.</p>
+<pre class="r"><code>ggplot() +
+  geom_point(data = diffgood, aes(x = `TeamScore`, y = OpponentScore), color = &quot;grey&quot;) + 
+  geom_point(data = worstgames, aes(x = `TeamScore`, y = OpponentScore), color = &quot;red&quot;) +
+   scale_y_continuous(limits = c(0, 80)) +
+  geom_encircle(aes(x=TeamScore, y=OpponentScore),
+                data=worstgames, 
+                color=&quot;blue&quot;, 
+                size=2, 
+                expand=0.04) +
+labs(x=&quot;Team Score&quot;, y=&quot;Opponent Score&quot;, title=&quot;Wait, what was the score?!&quot;, subtitle=&quot;There were five games this season where the opponent lost by 65 points or more!&quot;, caption=&quot;Source: NCAA | By Braden Robinson&quot;) +                
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+  )</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/31/text-cleaning/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
