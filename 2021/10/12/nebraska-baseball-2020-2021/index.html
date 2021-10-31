@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">3 min read</span>
+    <span class="article-duration">8 min read</span>
     
 
     <h1 class="article-title">Nebraska Baseball 2020-2021</h1>
@@ -80,6 +80,7 @@
 <p>Yet the 2021 season was not exactly normal. The Big Ten announced on February 17, 2021 that they had created a conference-only schedule for the season due to COVID-19. This was a bummer. The Big Ten could only play each other while every other conference could play a regular schedule. Although, it didn’t seem to rattle the Nebraska baseball team who cruised through their schedule and with the Big Ten deciding there will be no conference tournament the Huskers were crowned Big Ten Champions.</p>
 <p>Nebraska was then placed into the No. 1 ranked Arkansas Razorbacks’ regional, which was sought to be unfair by many people, but the Husker team was ready for the challenge. In Fayetteville, they made it to the regional finals to face the home team Razorbacks, but were defeated in game two to fall short of a super regional and finishing their season with a 34-14 record.</p>
 <p>So, this raises the question, with COVID-19 limiting Nebraska’s 2021 season to only Big Ten play how do the Huskers compare to the 16 teams who did make it to the super regionals?</p>
+<p>These teams include: Arizona, Arkansas, Dallas Baptist, East Carolina, LSU, Mississippi State, NC State, Notre Dame, Ole Miss, USF, Stanford, Tennessee, Texas, Texas Tech, Vanderbilt, and Virginia.</p>
 <p>Well let’s dive into it.</p>
 <p>Nebraska’s offensive play style is considered gritty, they even used the phrase “gritty beats pretty.” Every time they step in the batter’s box they look to get on base, sacrifice an out to move the runner to the next base, or battle in the box on an 0-2 count. When on base they look to get home as fast as possible; steal a base, or go first to third on a base hit. So, where does Nebraska stand compared to the others in walks, and stolen bases? Are they truly gritty?</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
@@ -88,41 +89,110 @@
   arrange(desc(BB...16)) %&gt;%
   top_n(10) %&gt;%
   select(Institution, BB...16) </code></pre>
-<pre class="r"><code>ggplot(top10BB, aes(x = reorder(Institution, BB...16), weight = BB...16)) +
-  geom_bar()</code></pre>
-<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-type type type type type</p>
+<pre class="r"><code>unl &lt;- top10BB %&gt;% filter(Institution == &quot;Nebraska&quot;)</code></pre>
+<pre class="r"><code>ggplot(top10BB, aes(x = reorder(Institution,- BB...16), weight = BB...16)) +
+  geom_bar() +
+  geom_bar(data=unl, aes(x=reorder(Institution, BB...16), weight=BB...16), fill=&quot;#E41C38&quot;) +
+  labs(x=&quot;Team&quot;, y=&quot;Number of Walks&quot;, title=&quot;Nebraska fails to get walks&quot;, subtitle=&quot;The Huskers lack in working the count and getting on base by way of the walk&quot;, caption=&quot;Source: NCAA | By Braden Robinson&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 9), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(size=7)
+    )</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Compared to Tennessee, 336 walks, Nebraska falls behind by 113 walks with only 223. Although, the Huskers did only play 48 games, the second lowest out of the 16 teams who did reach the super regionals. It is highly probable that more games would improve this statistic. But in talks of being gritty, this is not a category that the Huskers want to look at.</p>
 <pre class="r"><code>top10SB &lt;- baseball %&gt;%
   arrange(desc(SB)) %&gt;%
   top_n(10) %&gt;%
   select(Institution, SB) </code></pre>
-<pre class="r"><code>ggplot(top10SB, aes(x = reorder(Institution, SB), weight = SB)) +
-  geom_bar()+
+<pre class="r"><code>unl2 &lt;- top10SB %&gt;% filter(Institution == &quot;Nebraska&quot;)</code></pre>
+<pre class="r"><code>ggplot(top10SB, aes(x = reorder(Institution, - SB), weight = SB)) +
+  geom_bar() +
+  geom_bar(data=unl2, aes(x=reorder(Institution, SB), weight=SB), fill=&quot;#E41C38&quot;) +
+  labs(x=&quot;Team&quot;, y=&quot;Number of Stolen Bases&quot;, title=&quot;Nebraska excels at stealing an extra base&quot;, subtitle=&quot;The Huskers rank 5th in stolen bases among the teams who made it to super regionals&quot;, caption=&quot;Source: NCAA | By Braden Robinson&quot;) + 
+  theme_minimal() + 
   theme(
-    axis.text = element_text(size=8)
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 9), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(size=7)
   )</code></pre>
-<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Through the 48 games Nebraska played they show up 5th in stolen bases out of the other 16 teams. This is something the Huskers can be proud of. With 65 stolen bases, their urge to steal the extra base and get into scoring position is terrific and can be in the talks of grittiness.</p>
+<p>Every team needs to put the bat on the ball. Nebraska certainly did that, ranking No. 1 in batting average and hits in the 2021 season. But they ranked 121st in hits nationally, a stat where Arizona ranked 1st, and Tennessee ranked 2nd. So, how does Nebraska match-up against these two teams that are on our list? Also where are these hits coming from?</p>
 <pre class="r"><code>library(waffle)</code></pre>
 <pre class="r"><code>nu &lt;- c(&quot;Singles&quot; = 156.5, &quot;Doubles&quot; = 37.5, &quot;Triples&quot; = 4.5, &quot;Homeruns&quot; = 29.5, 228) 
-ut &lt;- c(&quot;Singles&quot; = 207, &quot;Doubles&quot; = 67, &quot;Triples&quot; = 6, &quot;Homeruns&quot; = 49, 40)
+ut &lt;- c(&quot;Singles&quot; = 207, &quot;Doubles&quot; = 67, &quot;Triples&quot; = 6, &quot;Homeruns&quot; = 49, 40 )
 au &lt;- c(&quot;Singles&quot; = 246, &quot;Doubles&quot; = 72, &quot;Triples&quot; = 15, &quot;Homeruns&quot; = 35)</code></pre>
 <pre class="r"><code>iron(
-waffle(nu, rows = 10, title=&quot;Nebraska&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hit&quot;, colors = c(&quot;black&quot;, &quot;red&quot;, &quot;Grey&quot;, &quot;Blue&quot;, &quot;white&quot;)), 
-waffle(ut, rows =10, title=&quot;Tennessee&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hit&quot;, colors = c(&quot;orange&quot;, &quot;black&quot;, &quot;grey&quot;, &quot;blue&quot;, &quot;white&quot;)),
-waffle(au, rows =10, title=&quot;Arizona&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hit&quot;, colors = c(&quot;Red&quot;, &quot;Blue&quot;, &quot;grey&quot;, &quot;black&quot;))
+waffle(nu, rows = 10, title=&quot;Nebraska&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hits&quot;, colors = c(&quot;black&quot;, &quot;#E41C38&quot;, &quot;Grey&quot;, &quot;Blue&quot;, &quot;white&quot;)), 
+waffle(ut, rows =10, title=&quot;Tennessee&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hits&quot;, colors = c(&quot;orange&quot;, &quot;black&quot;, &quot;grey&quot;, &quot;blue&quot;, &quot;white&quot;)),
+waffle(au, rows =10, title=&quot;Arizona&#39;s Hits&quot;, xlab=&quot;1 square = 2 Hits&quot;, colors = c(&quot;#AB0520&quot;, &quot;#0C234B&quot;, &quot;grey&quot;, &quot;#81D3EB&quot;))
 )</code></pre>
-<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
-type type type type type type type type</p>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>This chart clearly shows why these teams are ranked the way that they are. But both teams nearly 20 games more than Nebraska. The Huskers averaged 9.5 hits per game, while the Volunteers averaged 9.7, with 657 hits in 68 games, and the Wildcats averaged 11.7, with 737 hits in 63 games. If Nebraska kept up those numbers they would be at the top of the hit list nationally as well.</p>
+<p>Now let’s split those numbers up. Tennessee focused on power hitting, with 134 doubles, 12 triples and 98 home runs. Arizona however sprayed the ball all over the field acquiring 145 doubles, 30 triples, and 70 home runs. Nebraska had 313 singles which made up most of their 456 hits, they totaled 75 doubles, 9 triples, and 59 home runs. The Huskers had the speed and pop to create numbers like these other two teams, but did not have the opportunity with their schedule.</p>
+<p>Nebraska is one of the lowest on our list in runs scored, but number one on the list at not letting runs score against them. Both of these are probably because of their shorter schedule, but all in all it was a terrific season for the Huskers. But how do they really compare against these top notch teams in runs scored vs. runs allowed?</p>
 <pre class="r"><code>library(scales)
 library(ggrepel)</code></pre>
+<pre class="r"><code>unl3 &lt;- baseball %&gt;% filter(Institution == &quot;Nebraska&quot;) 
+sec &lt;- baseball %&gt;%  filter(Conference == &quot;SEC&quot;)</code></pre>
+<pre class="r"><code>baseball %&gt;% 
+  summarise(
+    avg_runs = mean(`R`),
+    avg_runs_against = mean(`R-A`)
+  )</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   avg_runs avg_runs_against
+##      &lt;dbl&gt;            &lt;dbl&gt;
+## 1     421.             278.</code></pre>
 <pre class="r"><code>ggplot() +
   geom_point(
     data = baseball,
     aes(x = `R`, y = `R-A`, size = W),
     alpha = .3    
   ) +
-  scale_size(range = c(3, 8), name=&quot;Wins&quot;)</code></pre>
-<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+  geom_point(
+    data = unl3,
+    aes(x = `R`, y = `R-A`, size = W),
+    color = &quot;red&quot;,
+    alpha = .65
+  ) +
+  geom_point(
+    data = sec,
+    aes(x = `R`, y = `R-A`, size = W),
+    color = &quot;blue&quot;,
+    alpha = .50
+  ) +
+  geom_vline(xintercept = 421.0588) +
+  geom_hline(yintercept = 278.1765) +
+  scale_size(range = c(3, 8), name=&quot;Wins&quot;) +
+  geom_text(aes(x = 500, y = 325, label = &#39;Efficient hitters, poor pitching&#39;), color = &#39;Blue&#39;) +
+  geom_text(aes(x = 365, y = 235, label = &#39;Inefficient Hitters, good pitching&#39;), color =&#39;Blue&#39;) +
+  geom_text(aes(x = 353, y = 200, label = &#39;Nebraska&#39;), color =&#39;Black&#39;) +
+  geom_text(aes(x = 485, y = 247, label = &#39;Arkansas&#39;), color =&#39;Black&#39;) +
+  labs(
+    x = &quot;Runs Scored&quot;,
+    y = &quot;Runs Against&quot;,
+    title = &quot;Nebraksa doesn&#39;t even compare against SEC schools&quot;,
+    subtitle = &quot;The Huskers don&#39;t have the runs to compete, though the pitchers held their own&quot;,
+    caption = &quot;Source: NCAA | By Braden Robinson&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 9), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    ) </code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/10/12/nebraska-baseball-2020-2021/index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Nebraska can’t really compete against SEC teams(in blue) statistically, but part of it are those limited number of games played. The Huskers scored 335 runs this season and gave up 200. They ended their season losing to Arkansas who is a great run scoring team and a terrific pitching team as well. The only SEC school who is considered just below average as a hitting team is LSU. And the only team sitting toward the bottom with Nebraska is Notre Dame, who had one less game played than the Huskers at 47.</p>
+<p>The 2021 Nebraska baseball team had a tremendous offensive season, it’s no wonder why they put up a good fight against Arkansas in the regional finals. If they were to have 20 more games played like most of the other teams in the data set, they would’ve matched up with the other top hitting teams a lot better.</p>
+<p>Let’s go back over what we gathered. The Huskers are gritty when it comes to stealing an extra base, but not in the batter’s box when attempting to get a walk. Next, with limited game play they don’t have as many hits as they would like to have for the comparison, but if they kept the same numbers all season then they would have been right behind Tennessee in hits. Finally, with a limited schedule yet again, the numbers couldn’t hold up when compared against the SEC schools in runs scored vs runs against, but the plot does show that Nebraska had a decent pitching staff this past season.</p>
 
     </div>
   </article>
