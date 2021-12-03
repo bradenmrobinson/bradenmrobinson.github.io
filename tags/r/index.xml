@@ -6,16 +6,15 @@
     <description>Recent content in R on Braden Robinson&#39;s GitHub Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://bradenmrobinson.github.io/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://bradenmrobinson.github.io/tags/r/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Text Cleaning</title>
-      <link>http://bradenmrobinson.github.io/2021/10/31/text-cleaning/</link>
-      <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
+      <title>Salvador Perez&#39;s Incredible Year at the Plate</title>
+      <link>http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/</link>
+      <pubDate>Thu, 02 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://bradenmrobinson.github.io/2021/10/31/text-cleaning/</guid>
-      <description>library(tidyverse) First, I need to bring in my data.
-bad &amp;lt;- read_csv(&amp;quot;badfootballlogs19.csv&amp;quot;)  Then, we need to separate the result into Outcome and Score while getting rid of the first parenthesis in the score.
-bad %&amp;gt;% separate(Result, into=c(&amp;quot;Outcome&amp;quot;, &amp;quot;Score&amp;quot;), sep=&amp;quot;\\(&amp;quot;) %&amp;gt;% head()  ## # A tibble: 6 × 52 ## Game Date HomeAway Opponent Outcome Score PassingCmp PassingAtt PassingPct ## &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 1 8/24/19 N Miami (… &amp;quot;W &amp;quot; 24-2… 17 27 63 ## 2 2 9/7/19 &amp;lt;NA&amp;gt; Tenness… &amp;quot;W &amp;quot; 45-0) 30 36 83.</description>
+      <guid>http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/</guid>
+      <description>  Salvador Perez had one of his best years at the plate in a while.
+library(tidyverse) </description>
     </item>
     
     <item>
