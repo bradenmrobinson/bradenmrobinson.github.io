@@ -6,8 +6,8 @@
 <meta name="generator" content="Hugo 0.88.1" />
 
 
-<title>Salvador Perez&#39;s Incredible Year at the Plate - Braden Robinson&#39;s GitHub Site</title>
-<meta property="og:title" content="Salvador Perez&#39;s Incredible Year at the Plate - Braden Robinson&#39;s GitHub Site">
+<title>Salvador Perez&#39;s Oustanding Year - Braden Robinson&#39;s GitHub Site</title>
+<meta property="og:title" content="Salvador Perez&#39;s Oustanding Year - Braden Robinson&#39;s GitHub Site">
 
 
   <link href='http://bradenmrobinson.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
@@ -62,10 +62,10 @@
 
   <article class="article">
     
-    <span class="article-duration">1 min read</span>
+    <span class="article-duration">2 min read</span>
     
 
-    <h1 class="article-title">Salvador Perez&#39;s Incredible Year at the Plate</h1>
+    <h1 class="article-title">Salvador Perez&#39;s Oustanding Year</h1>
 
     
     <span class="article-date">2021-12-02</span>
@@ -76,8 +76,32 @@
 <script src="http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/index_files/header-attrs/header-attrs.js"></script>
 
 
-<p>Salvador Perez had one of his best years at the plate in a while.</p>
+<p>Salvador Perez had the best season he’s ever had in 2021. With an injury putting him out for the 2019 season and only playing 37 out of the 60 scheduled in 2020, Perez was as fresh as ever coming into the 2021 season and it showed. He was voted for his seventh all-star game and captured his fifth gold glove, along with these awards Perez broke the record for most home runs by a catcher in a single season with 48.</p>
+<p>Perez’s stats put him at the top of many leader boards in the league; tying for first in all of Major League Baseball in home runs, first in the MLB for runs batted in with 121, third in the AL in total bases with 337, third in the AL in games played with 161, only missing one game, and fifth in the AL in slugging percentage with .544 . His impressive season put him seventh in the AL MVP voting out of 23 other players.</p>
+<p>Behind the dish on the defensive side Salvador Perez led the league in caught stealing percentage with a .439, throwing out 18 out of 41 stolen base attempts, and only allowing 1 passed ball in 124 games catching.</p>
+<p>So let’s compare some of these impressive stats to the rest of the league.</p>
+<p>First we’ll take a look at batting average, a stat that was pretty average for Perez. For the hitting comparisons, I have gathered stats for the top 15 hitters in the Major Leagues.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code>Hittingstats &lt;- read.csv(&quot;Project2_hittingstats.csv&quot;)</code></pre>
+<pre class="r"><code>top10AVG &lt;- Hittingstats %&gt;%
+  arrange(desc(AVG)) %&gt;%
+  select(Player, AVG) %&gt;% 
+  top_n(9)</code></pre>
+<pre><code>## Selecting by AVG</code></pre>
+<pre class="r"><code>Salvy &lt;- Hittingstats %&gt;% filter(Player == &quot;Salvador Perez&quot;)</code></pre>
+<pre class="r"><code>ggplot(top10AVG, aes(x = reorder(Player,- AVG), weight = AVG)) +
+  geom_bar() +
+  geom_bar(data=Salvy, aes(x=reorder(Player, AVG), weight=AVG), fill=&quot;#004687&quot;) +
+  labs(x=&quot;Team&quot;, y=&quot;Number of Walks&quot;, title=&quot;Nebraska fails to get walks&quot;, subtitle=&quot;The Huskers lack in working the count and getting on base by way of the walk&quot;, caption=&quot;Source: NCAA | By Braden Robinson&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 9), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(size=6.5)
+    )</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 
     </div>
   </article>
