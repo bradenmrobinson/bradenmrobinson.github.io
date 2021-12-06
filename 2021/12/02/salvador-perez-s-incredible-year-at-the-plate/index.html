@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">2 min read</span>
+    <span class="article-duration">10 min read</span>
     
 
     <h1 class="article-title">Salvador Perez&#39;s Oustanding Year</h1>
@@ -76,32 +76,628 @@
 <script src="http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/index_files/header-attrs/header-attrs.js"></script>
 
 
-<p>Salvador Perez had the best season he’s ever had in 2021. With an injury putting him out for the 2019 season and only playing 37 out of the 60 scheduled in 2020, Perez was as fresh as ever coming into the 2021 season and it showed. He was voted for his seventh all-star game and captured his fifth gold glove, along with these awards Perez broke the record for most home runs by a catcher in a single season with 48.</p>
+<p>Salvador Perez had the best season he’s ever had in 2021. With an injury putting him out for the 2019 season and only playing 37 out of the 60 scheduled in 2020, Perez was as fresh as ever coming into the 2021 season and it showed. He was voted for his seventh all-star game and captured his fifth gold glove, along with these awards Perez broke the record for most home runs by a catcher in a single season with 48. His season is very much slept on due to the superstar two-way import Shohei Ohtani, and young Blue Jay, Vladimir Guerrero Jr. putting up exceptional numbers as well.</p>
 <p>Perez’s stats put him at the top of many leader boards in the league; tying for first in all of Major League Baseball in home runs, first in the MLB for runs batted in with 121, third in the AL in total bases with 337, third in the AL in games played with 161, only missing one game, and fifth in the AL in slugging percentage with .544 . His impressive season put him seventh in the AL MVP voting out of 23 other players.</p>
 <p>Behind the dish on the defensive side Salvador Perez led the league in caught stealing percentage with a .439, throwing out 18 out of 41 stolen base attempts, and only allowing 1 passed ball in 124 games catching.</p>
-<p>So let’s compare some of these impressive stats to the rest of the league.</p>
-<p>First we’ll take a look at batting average, a stat that was pretty average for Perez. For the hitting comparisons, I have gathered stats for the top 15 hitters in the Major Leagues.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre class="r"><code>Hittingstats &lt;- read.csv(&quot;Project2_hittingstats.csv&quot;)</code></pre>
-<pre class="r"><code>top10AVG &lt;- Hittingstats %&gt;%
-  arrange(desc(AVG)) %&gt;%
-  select(Player, AVG) %&gt;% 
-  top_n(9)</code></pre>
-<pre><code>## Selecting by AVG</code></pre>
-<pre class="r"><code>Salvy &lt;- Hittingstats %&gt;% filter(Player == &quot;Salvador Perez&quot;)</code></pre>
-<pre class="r"><code>ggplot(top10AVG, aes(x = reorder(Player,- AVG), weight = AVG)) +
+<p>We’re going to compare some of these impressive stats to the rest of the league. But first let’s look at Perez’s career numbers since he was brought into the league.</p>
+<pre class="r"><code>library(tidyverse)
+library(gt)
+library(ggrepel)
+library(scales)</code></pre>
+<pre class="r"><code>Hittingstats &lt;- read.csv(&quot;Project2_hittingstats.csv&quot;)
+Career &lt;- read.csv(&quot;SalvyCareer.csv&quot;)
+Catchingstats &lt;- read.csv(&quot;Project2_CatchingStats.csv&quot;)</code></pre>
+<pre class="r"><code>Career2 &lt;- Career %&gt;%
+  select(Year, G, R, H, TB, HR, BB, SO, RBI, AVG)</code></pre>
+<pre class="r"><code>Career2 %&gt;% 
+  gt() %&gt;% 
+  tab_header(
+    title = &quot;Salvador Perez&#39;s Career for the Royals&quot;,
+    subtitle = &quot;10 years for the Royals and Salvy&#39;s numbers finally sky rocket&quot;
+  ) %&gt;%  
+  tab_source_note(
+    source_note = md(&quot;**By:** Braden Robinson  |  **Source:** [MLB.com]&quot;)
+  ) %&gt;% 
+  tab_style(
+    style = cell_text(color = &quot;black&quot;, weight = &quot;bold&quot;, align = &quot;left&quot;),
+    locations = cells_title(&quot;title&quot;)
+  ) %&gt;% 
+  tab_style(
+    style = cell_text(color = &quot;black&quot;, align = &quot;left&quot;),
+    locations = cells_title(&quot;subtitle&quot;)
+  ) %&gt;%
+  tab_style(
+     locations = cells_column_labels(columns = everything()),
+     style = list(
+       cell_borders(sides = &quot;bottom&quot;, weight = px(3)),
+       cell_text(weight = &quot;bold&quot;, size=12)
+     )
+   ) %&gt;%
+  opt_row_striping() %&gt;% 
+  opt_table_lines(&quot;none&quot;
+  ) %&gt;%
+  tab_style(
+    style = list(
+      cell_fill(color = &quot;#004687&quot;),
+      cell_text(color = &quot;White&quot;)
+      ),
+    locations = cells_body(
+      rows = Year == &quot;2021&quot;)
+  )</code></pre>
+<div id="wrhguopghe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#wrhguopghe .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: none;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wrhguopghe .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wrhguopghe .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wrhguopghe .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wrhguopghe .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wrhguopghe .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wrhguopghe .gt_column_spanner {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wrhguopghe .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wrhguopghe .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wrhguopghe .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wrhguopghe .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wrhguopghe .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wrhguopghe .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#wrhguopghe .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wrhguopghe .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wrhguopghe .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: none;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wrhguopghe .gt_table_body {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wrhguopghe .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wrhguopghe .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wrhguopghe .gt_left {
+  text-align: left;
+}
+
+#wrhguopghe .gt_center {
+  text-align: center;
+}
+
+#wrhguopghe .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wrhguopghe .gt_font_normal {
+  font-weight: normal;
+}
+
+#wrhguopghe .gt_font_bold {
+  font-weight: bold;
+}
+
+#wrhguopghe .gt_font_italic {
+  font-style: italic;
+}
+
+#wrhguopghe .gt_super {
+  font-size: 65%;
+}
+
+#wrhguopghe .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="10" class="gt_heading gt_title gt_font_normal" style="color: #000000; text-align: left; font-weight: bold;">Salvador Perez's Career for the Royals</th>
+    </tr>
+    <tr>
+      <th colspan="10" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="color: #000000; text-align: left;">10 years for the Royals and Salvy's numbers finally sky rocket</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">G</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">R</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">H</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">TB</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">HR</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">BB</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">SO</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">RBI</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;">AVG</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">2011</td>
+<td class="gt_row gt_right">39</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">49</td>
+<td class="gt_row gt_right">70</td>
+<td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">7</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">21</td>
+<td class="gt_row gt_right">0.331</td></tr>
+    <tr><td class="gt_row gt_right gt_striped">2012</td>
+<td class="gt_row gt_right gt_striped">76</td>
+<td class="gt_row gt_right gt_striped">38</td>
+<td class="gt_row gt_right gt_striped">87</td>
+<td class="gt_row gt_right gt_striped">136</td>
+<td class="gt_row gt_right gt_striped">11</td>
+<td class="gt_row gt_right gt_striped">12</td>
+<td class="gt_row gt_right gt_striped">27</td>
+<td class="gt_row gt_right gt_striped">39</td>
+<td class="gt_row gt_right gt_striped">0.301</td></tr>
+    <tr><td class="gt_row gt_right">2013</td>
+<td class="gt_row gt_right">138</td>
+<td class="gt_row gt_right">48</td>
+<td class="gt_row gt_right">145</td>
+<td class="gt_row gt_right">215</td>
+<td class="gt_row gt_right">13</td>
+<td class="gt_row gt_right">21</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_right">79</td>
+<td class="gt_row gt_right">0.292</td></tr>
+    <tr><td class="gt_row gt_right gt_striped">2014</td>
+<td class="gt_row gt_right gt_striped">150</td>
+<td class="gt_row gt_right gt_striped">57</td>
+<td class="gt_row gt_right gt_striped">150</td>
+<td class="gt_row gt_right gt_striped">233</td>
+<td class="gt_row gt_right gt_striped">17</td>
+<td class="gt_row gt_right gt_striped">22</td>
+<td class="gt_row gt_right gt_striped">85</td>
+<td class="gt_row gt_right gt_striped">70</td>
+<td class="gt_row gt_right gt_striped">0.260</td></tr>
+    <tr><td class="gt_row gt_right">2015</td>
+<td class="gt_row gt_right">142</td>
+<td class="gt_row gt_right">52</td>
+<td class="gt_row gt_right">138</td>
+<td class="gt_row gt_right">226</td>
+<td class="gt_row gt_right">21</td>
+<td class="gt_row gt_right">13</td>
+<td class="gt_row gt_right">82</td>
+<td class="gt_row gt_right">70</td>
+<td class="gt_row gt_right">0.260</td></tr>
+    <tr><td class="gt_row gt_right gt_striped">2016</td>
+<td class="gt_row gt_right gt_striped">139</td>
+<td class="gt_row gt_right gt_striped">57</td>
+<td class="gt_row gt_right gt_striped">127</td>
+<td class="gt_row gt_right gt_striped">225</td>
+<td class="gt_row gt_right gt_striped">22</td>
+<td class="gt_row gt_right gt_striped">22</td>
+<td class="gt_row gt_right gt_striped">119</td>
+<td class="gt_row gt_right gt_striped">64</td>
+<td class="gt_row gt_right gt_striped">0.247</td></tr>
+    <tr><td class="gt_row gt_right">2017</td>
+<td class="gt_row gt_right">129</td>
+<td class="gt_row gt_right">57</td>
+<td class="gt_row gt_right">126</td>
+<td class="gt_row gt_right">233</td>
+<td class="gt_row gt_right">27</td>
+<td class="gt_row gt_right">17</td>
+<td class="gt_row gt_right">95</td>
+<td class="gt_row gt_right">80</td>
+<td class="gt_row gt_right">0.268</td></tr>
+    <tr><td class="gt_row gt_right gt_striped">2018</td>
+<td class="gt_row gt_right gt_striped">129</td>
+<td class="gt_row gt_right gt_striped">52</td>
+<td class="gt_row gt_right gt_striped">120</td>
+<td class="gt_row gt_right gt_striped">224</td>
+<td class="gt_row gt_right gt_striped">27</td>
+<td class="gt_row gt_right gt_striped">17</td>
+<td class="gt_row gt_right gt_striped">108</td>
+<td class="gt_row gt_right gt_striped">80</td>
+<td class="gt_row gt_right gt_striped">0.235</td></tr>
+    <tr><td class="gt_row gt_right">2020</td>
+<td class="gt_row gt_right">37</td>
+<td class="gt_row gt_right">22</td>
+<td class="gt_row gt_right">50</td>
+<td class="gt_row gt_right">95</td>
+<td class="gt_row gt_right">11</td>
+<td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">36</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">0.333</td></tr>
+    <tr><td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">2021</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">161</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">88</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">169</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">337</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">48</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">28</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">170</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">121</td>
+<td class="gt_row gt_right gt_striped" style="background-color: #004687; color: #FFFFFF;">0.273</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="10"><strong>By:</strong> Braden Robinson  |  <strong>Source:</strong> [MLB.com]</td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+<p>Clearly this season Salvador Perez felt very good, playing injury free for the first time since the end of the 2018 season. The amount of games he played helped him create the numbers that he did, creating personal bests in every category except batting average. Perez struck out a good bit but that didn’t hold him back from his incredible season, and in many cases is simply skipped over.</p>
+<p>Next we’ll take a look at batting average and home runs. For the hitting comparisons, I have gathered stats for the top 15 hitters in the Major Leagues.</p>
+<pre class="r"><code>Perez &lt;- Hittingstats %&gt;% filter(Player == &quot;Salvador Perez&quot;)
+Vlad &lt;- Hittingstats %&gt;%  filter(Player == &quot;Vladimir Guerrero&quot;)
+Trea &lt;- Hittingstats %&gt;%  filter(Player == &quot;Trea Turner&quot;)
+Shohei &lt;- Hittingstats %&gt;%  filter(Player == &quot;Shohei Ohtani&quot;)</code></pre>
+<pre class="r"><code>ggplot() +
+  geom_point(
+    data = Hittingstats,
+    aes(x = `AVG`, y = `HR`, size = HR),
+    alpha = .3    
+  ) +
+  geom_point(
+    data = Perez,
+    aes(x = `AVG`, y = `HR`, size = HR),
+    color = &quot;red&quot;,
+    alpha = .65
+  ) +
+  geom_point(
+    data = Vlad,
+    aes(x = `AVG`, y = `HR`, size = HR),
+    color = &quot;blue&quot;,
+    alpha = .50
+  ) +
+  geom_point(
+    data = Trea,
+    aes(x = `AVG`, y = `HR`, size = HR),
+    color = &quot;blue&quot;,
+    alpha = .50
+  ) +
+  geom_vline(xintercept = .290) +
+  geom_hline(yintercept = 35) +
+  scale_size(range = c(3, 8), name=&quot;HR&quot;) +
+  geom_text(aes(x = .270, y = 43, label = &#39;Power hitters, poor average&#39;), color = &#39;Blue&#39;) +
+  geom_text(aes(x = .310, y = 25, label = &#39;Contact hitters, good average&#39;), color =&#39;Blue&#39;) +
+  geom_text(aes(x = .273, y = 46, label = &#39;Salvador Perez&#39;), color =&#39;Black&#39;) +
+  geom_text(aes(x = .311, y = 46, label = &#39;Vladimir Guerrero&#39;), color =&#39;Black&#39;) +
+  geom_text(aes(x = .325, y = 27, label = &#39;Trea Turner&#39;), color = &#39;Black&#39;) +
+  scale_size(range = c(3, 8), name=&quot;HR&quot;) +
+  labs(
+    x = &quot;Batting Average&quot;,
+    y = &quot;Home Runs&quot;,
+    title = &quot;Perez Powers to the Top&quot;,
+    subtitle = &quot;Salvy&#39;s batting average slumps but the home runs make up for it&quot;,
+    caption = &quot;Source: MLB.com | By Braden Robinson&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 9), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    ) </code></pre>
+<pre><code>## Scale for &#39;size&#39; is already present. Adding another scale for &#39;size&#39;, which
+## will replace the existing scale.</code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>If we were to just look at Salvador Perez’s batting average we could assume that he had a pretty average season at the plate. But his season was far from that, he came up big in the clutch for the Royals in HRs. As said before, he led the league in RBIs so some of his ground outs, which would hurt his batting average, could have scored a run from third to give him an RBI.</p>
+<p>So let’s look at those RBIs, how much did he stand out against the top hitters in the league?</p>
+<pre class="r"><code>salvador &lt;- Hittingstats %&gt;% filter(Player == &quot;Salvador Perez&quot;)</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_point(data=Hittingstats, aes(x=RBI, y=H)) +
+  geom_point(data=salvador, aes(x=RBI, y=H), color=&quot;red&quot;) +
+  geom_text(aes(x = 118, y = 166, label = &#39;Salvador Perez&#39;), color =&#39;Black&#39;) +
+  geom_text(aes(x = 78, y = 190, label = &#39;Trea Turner&#39;), color =&#39;Black&#39;) +
+  geom_text(aes(x = 80, y = 135, label = &#39;Tyler ONeill&#39;), color =&#39;Black&#39;) +
+  geom_text(aes(x = 111, y = 192, label = &#39;Vladimir Guerrero Jr.&#39;), color =&#39;Black&#39;) +
+  labs(
+    x = &quot;Runs Batted In&quot;,
+    y = &quot;Hits&quot;,
+    title = &quot;Perez Leads the way!&quot;,
+    subtitle = &quot;Turner and Guerrero are at the top when it comes to hits but Salvy brings in the runners on base&quot;,
+    caption = &quot;Source: MLB.com | By Braden Robinson&quot;
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 9), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    ) </code></pre>
+<p><img src="http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Once again Salvador Perez comes through in the clutch for the Royals, with runners on base, Perez is the one that you want at the plate for your team. Leading the way by a big margin in RBIs, and his 169 hits keep him at the top half of the chart. His exceptional season at the dish was the best for a catcher in a very long time. It’s no wonder the Royals want to keep Perez around for the long haul.</p>
+<p>As the face of the franchise, Salvy not only gets it done in the batter’s box, but behind the plate as well. So how does he look compared to other top catchers across the league?</p>
+<pre class="r"><code>top10CS &lt;- Catchingstats %&gt;%
+  arrange(desc(CS)) %&gt;%
+  top_n(10) %&gt;%
+  select(Player, CS)</code></pre>
+<pre class="r"><code>Salvy &lt;- Catchingstats %&gt;% filter(Player == &quot;Salvador Perez&quot;)</code></pre>
+<pre class="r"><code>ggplot(top10CS, aes(x = reorder(Player,- CS), weight = CS)) +
   geom_bar() +
-  geom_bar(data=Salvy, aes(x=reorder(Player, AVG), weight=AVG), fill=&quot;#004687&quot;) +
-  labs(x=&quot;Team&quot;, y=&quot;Number of Walks&quot;, title=&quot;Nebraska fails to get walks&quot;, subtitle=&quot;The Huskers lack in working the count and getting on base by way of the walk&quot;, caption=&quot;Source: NCAA | By Braden Robinson&quot;) + 
+  geom_bar(data=Salvy, aes(x=reorder(Player, CS), weight= CS), fill=&quot;#004687&quot;) +
+  labs(x=&quot;Player&quot;, y=&quot;Caught Stealing&quot;, title=&quot;Don&#39;t run on Salvy&quot;, subtitle=&quot;Perez shows off his cannon of an arm with 18 runners caught stealing&quot;, caption=&quot;Source: MLB.com | By Braden Robinson&quot;) + 
   theme_minimal() + 
   theme(
     plot.title = element_text(size = 16, face = &quot;bold&quot;),
     axis.title = element_text(size = 9), 
     plot.subtitle = element_text(size=10), 
     panel.grid.minor = element_blank(),
-    axis.text = element_text(size=6.5)
+    axis.text = element_text(size=5)
     )</code></pre>
-<p><img src="http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="http://bradenmrobinson.github.io/2021/12/02/salvador-perez-s-incredible-year-at-the-plate/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Salvador Perez ties for second in throwing out runners attempting to steal an extra base. Perez also has a fielding percentage on 99.8%, only allowing one passed ball in 124 games played behind the plate. He has also turned 12 double plays from behind the plate, leading all catchers across the league.</p>
+<p>These stats are insane, Salvador Perez had a stand out year that Royals fans can only hope will happen again next season. As long as Perez stays healthy there is a decent chance that a season like this could reoccur from the all-star catcher.</p>
 
     </div>
   </article>
